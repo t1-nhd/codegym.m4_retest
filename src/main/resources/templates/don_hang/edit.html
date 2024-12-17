@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div>
+  <form th:action="@{/update}" method="post" th:object="${donHang}">
+    <table>
+      <tr>
+        <td colspan="2" style="text-align: center;">
+          Chỉnh sửa cho đơn hàng mã số <span th:text="*{maDonHang}"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="loaiSanPham">Loại sản phẩm<span style="color: red;">(*)</span></label>
+        </td>
+        <td>
+          <select id="loaiSanPham" name="loaiSanPham">
+            <option th:selected="${lsp.maLoaiSP == donHang.sanPham.loaiSanPham.maLoaiSP}" th:each="lsp : ${loaiSanPhams}" th:text="${lsp.tenLoaiSP}" th:value="${lsp.maLoaiSP}"></option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="loaiSanPham">Sản phẩm<span style="color: red;">(*)</span></label>
+        </td>
+        <td>
+          <select id="sanPham" name="sanPham">
+            <option th:selected="${sp.maSP == donHang.sanPham.maSP}" th:each="sp : ${sanPhams}" th:text="${sp.tenSP}" th:value="${sp.maSP}"></option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="ngayMua">Ngày mua<span style="color: red;">(*)</span></label>
+        </td>
+        <td>
+          <input th:value="*{ngayMua}" type="date" name="ngayMua" id="ngayMua">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="soLuong">Số lượng<span style="color: red;">(*)</span></label>
+        </td>
+        <td>
+          <input th:value="*{soLuong}" type="number" name="soLuong" id="soLuong" min="1">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="submit" value="Sửa">
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>

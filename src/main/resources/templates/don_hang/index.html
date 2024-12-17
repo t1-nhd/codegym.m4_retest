@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div>
+  <form th:action="@{/top}" method="get">
+    <label for="top">Top</label>
+    <select name="top" id="top">
+      <option value="10" selected>10</option>
+      <option value="5">5</option>
+      <option value="3">3</option>
+      <option value="1">1</option>
+    </select>
+    <span>Đơn hàng có tổng số tiền bán cao nhất</span>
+    <input type="submit" value="Xem top"></input>
+  </form>
+</div>
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>STT</th>
+      <th>Mã đơn hàng</th>
+      <th>Tên sản phẩm</th>
+      <th>Giá</th>
+      <th>Loại sản phẩm</th>
+      <th>Ngày mua</th>
+      <th>Số lượng</th>
+      <th>Tổng tiền</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dh, index : ${donHangs}">
+      <td th:text="${index.count}"></td>
+      <td th:text="${dh.maDonHang}"></td>
+      <td th:text="${dh.sanPham.tenSP}"></td>
+      <td th:text="${dh.sanPham.giaSP}"></td>
+      <td th:text="${dh.sanPham.loaiSanPham.tenLoaiSP}"></td>
+      <td th:text="${#temporals.format(dh.ngayMua, 'dd/MM/yyyy')}"></td>
+      <td th:text="${dh.soLuong}"></td>
+      <td th:text="${dh.soLuong * dh.sanPham.giaSP}"></td>
+      <td>
+        <a th:href="@{/{id}/edit(id=${dh.maDonHang})}">Sửa</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <a th:href="@{/(page=${donHangs.number - 1})}" th:text="'<<'" th:if="${donHangs.hasPrevious()}">
+
+  </a>
+  <a th:each="i : ${#numbers.sequence(0, donHangs.totalPages - 1)}" th:href="@{/(page=${i})}" th:text="${i+1}"
+     th:unless="${donHangs.totalPages == 0}">
+  </a>
+  <a th:href="@{/(page=${donHangs.number + 1})}" th:text="'>>'" th:if="${donHangs.hasNext()}">
+
+  </a>
+</div>
+</body>
+</html>
